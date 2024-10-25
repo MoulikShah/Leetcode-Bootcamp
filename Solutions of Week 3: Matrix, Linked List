@@ -1,0 +1,74 @@
+(1) Palindrome Linked List
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+from collections import deque
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        deq = deque()
+
+        while head:
+            deq.append(head.val)
+            head = head.next
+        
+        if len(deq) == 1:
+            return True
+
+        while len(deq) > 1:
+            if deq.popleft() != deq.pop():
+                return False
+        
+        return True
+
+        
+
+
+(2) Remove Nth Node From End of List
+
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        res = ListNode(0, head)
+        dummy = res
+
+        for _ in range(n):
+            head = head.next
+        
+        while head:
+            head = head.next
+            dummy = dummy.next
+        
+        dummy.next = dummy.next.next
+
+        return res.next
+
+
+(3) Set Matrix Zeroes
+
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+
+        # First pass: find all zeros
+        out = []
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == 0:
+                    out.append([i,j])
+        
+        # Extract rows and columns that should be zeroed
+        cols = []
+        rows = []
+        for li in out:
+            rows.append(li[0])
+            cols.append(li[1])
+
+        # Second pass: Set the appropriate rows and columns to zero
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if i in rows or j in cols:
+                    matrix[i][j] = 0
+
+
